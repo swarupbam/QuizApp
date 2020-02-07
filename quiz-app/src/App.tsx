@@ -3,7 +3,7 @@ import './App.css';
 import { Question } from './components/Question/Question';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
-import {Button} from "react-bootstrap";
+import {Button, Container, Row, Col} from "react-bootstrap";
 import { IQuestion } from './types';
 import moment from "moment";
 import {AppState} from "./types";
@@ -27,15 +27,23 @@ export class  App extends Component<any,AppState>{
     this.renderResult = this.renderResult.bind(this);
     this.shouldDisplayResult = this.shouldDisplayResult.bind(this);
   }
+   rotate(nums: any[], k: number) {
+    let i = 0;
+    while (i < k) {
+      nums.unshift(nums.pop());
+      i++;
+    }
+    return nums;
+  };
   componentDidMount(){
-    // https://opentdb.com/api.php?amount=3
     axios.get(Constant.API_URL)
     .then(response => {
       const questions = response.data.results.map((question: any) => {
-        question.options = question.incorrect_answers.concat(question.correct_answer);
+        question.options = this.rotate(question.incorrect_answers.concat(
+          question.correct_answer
+        ), Math.floor(Math.random() * 10));
         return question;
       } );
-      console.log(questions);
       this.setState({questions, isLoading: false});
     })
     .catch(error => this.setState({isLoading: false}));
@@ -83,11 +91,18 @@ export class  App extends Component<any,AppState>{
 
   render(){
     return(
-      <div className="App">
-        <div className="container-fluid">
-          {!this.state.isLoading && !this.state.isQuizStarted ? this.renderStartQuizButton(): !this.shouldDisplayResult()  ? this.renderQuestion(): this.state.isQuizStarted ? this.renderResult() : null }
-        </div>
+      <Container>
+        <Row>
+        <Col md={{ span: 8, offset: 2 }}>
+        <div className="App appContainer">
+          <div className="container-fluid">
+
+      {!this.state.isLoading && !this.state.isQuizStarted ? this.renderStartQuizButton(): !this.shouldDisplayResult()  ? this.renderQuestion(): this.state.isQuizStarted ? this.renderResult() : null }
       </div>
+      </div>
+        </Col>
+        </Row>
+      </Container>
     )
   }
 };

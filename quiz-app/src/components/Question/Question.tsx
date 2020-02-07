@@ -12,9 +12,8 @@ export const Question: React.FC<IQuestionProp> = ({category,type,question,correc
                 {
                     options.map((option: string) => {
                         return (
-                            <div>
+                            <div key={option} style={{padding: "5px"}}>
                                 <Form.Check
-                                key={option}
                                 checked={state.currentAnswer === option}
                                 value={option}
                                 type="radio"
