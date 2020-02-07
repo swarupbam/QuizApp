@@ -75,7 +75,7 @@ export class  App extends Component<any,AppState>{
         <div><h2>Result</h2></div>
         <div>Time taken: { moment(moment().format(Constant.DATE_FORMAT)).diff(moment(this.state.startedAt),"minutes")} Minutes</div>
         <div>Score: {this.state.noOfCorrectAnswers}/{this.state.questions.length} </div>
-        <div>Percentage: {((this.state.noOfCorrectAnswers/ this.state.questions.length) * 100).toFixed(2)}</div>
+        <div>Percentage: {((this.state.noOfCorrectAnswers/ this.state.questions.length) * 100).toFixed(2)} %</div>
       </div>
     )
   }
